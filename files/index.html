@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nativo — Muévete. Impacta. Transforma.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- PANTALLA DE ACCESO: login / registro local -->
+  <section class="auth-screen" id="auth-screen" aria-label="Acceso a Nativo">
+    <div class="auth-card">
+      <div class="auth-logo">🌿</div>
+      <h1>nativo</h1>
+      <p class="auth-subtitle">Crea tu cuenta, guarda tus pasos y convierte tu movimiento en impacto social.</p>
+
+      <div class="auth-tabs" role="tablist">
+        <button class="auth-tab active" id="login-tab" type="button" onclick="setAuthMode('login')">Iniciar sesión</button>
+        <button class="auth-tab" id="register-tab" type="button" onclick="setAuthMode('register')">Crear cuenta</button>
+      </div>
+
+      <form class="auth-form" id="auth-form">
+        <label class="auth-field" id="name-field">
+          <span>Nombre</span>
+          <input id="auth-name" type="text" autocomplete="name" placeholder="Ana" maxlength="24">
+        </label>
+        <label class="auth-field">
+          <span>Email</span>
+          <input id="auth-email" type="email" autocomplete="email" placeholder="tu@email.com" required>
+        </label>
+        <label class="auth-field">
+          <span>Contraseña</span>
+          <input id="auth-password" type="password" autocomplete="current-password" placeholder="Mínimo 4 caracteres" required>
+        </label>
+        <button class="auth-submit" type="submit" id="auth-submit">Entrar</button>
+      </form>
+
+      <button class="auth-demo" type="button" onclick="quickDemoLogin()">Usar cuenta demo</button>
+      <p class="auth-note">Los datos se guardan en este navegador mediante <strong>localStorage</strong>, suficiente para simular el prototipo funcional.</p>
+    </div>
+  </section>
+
+  <!-- ================================================================ -->
+  <div class="desktop-wrapper">
+
+    <!-- Sidebar informativa (solo escritorio) -->
+    <aside class="desktop-sidebar">
+      <div class="sidebar-brand">
+        <div class="sidebar-logo-wrap">
+          <span class="sidebar-logo">🌿</span>
+        </div>
+        <h1 class="sidebar-title">nativo</h1>
+        <p class="sidebar-tagline">Camina. Genera energía.<br>Transforma comunidades.</p>
+      </div>
+
+      <ul class="sidebar-features">
+        <li>
+          <div class="sf-icon">👣</div>
+          <div class="sf-text">
+            <strong>Cuenta tus pasos</strong>
+            <span>Cada paso genera energía real</span>
+          </div>
+        </li>
+        <li>
+          <div class="sf-icon">⚡</div>
+          <div class="sf-text">
+            <strong>Convierte en créditos</strong>
+            <span>100 pasos = 1 crédito Nativo</span>
+          </div>
+        </li>
+        <li>
+          <div class="sf-icon">🌍</div>
+          <div class="sf-text">
+            <strong>Financia proyectos</strong>
+            <span>Dona créditos a tu comunidad</span>
+          </div>
+        </li>
+        <li>
+          <div class="sf-icon">📈</div>
+          <div class="sf-text">
+            <strong>Mide tu impacto</strong>
+            <span>Ve cómo cambias el mundo</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <p class="sf-label">Disponible próximamente en</p>
+        <div class="store-badges">
+          <div class="store-badge">
+            <span>🍎</span> App Store
+          </div>
+          <div class="store-badge">
+            <span>▶</span> Google Play
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PHONE MOCKUP: Contiene la app móvil-->
+    <div class="phone-mockup">
+      <!-- Notch del teléfono -->
+      <div class="phone-notch">
+        <div class="notch-camera"></div>
+      </div>
+
+      <div class="phone-screen">
+
+        <!-- APP SHELL-->
+        <div class="app" id="app">
+
+          <!-- HEADER -->
+          <header class="app-header" id="app-header">
+            <div class="header-inner">
+              <div class="header-brand">
+                <span class="header-logo">🌿</span>
+                <span class="header-name">nativo</span>
+              </div>
+              <div class="header-actions">
+                <div class="streak-pill">
+                  <span class="streak-fire">🔥</span>
+                  <span class="streak-num" id="streak-count">7</span>
+                </div>
+                <button class="user-avatar" id="header-avatar" onclick="setTab('profile')" aria-label="Abrir perfil">A</button>
+              </div>
+            </div>
+          </header>
+
+          <!-- PANTALLAS / TABS-->
+          <main class="app-main" id="app-main">
+
+            <!-- ======== TAB: INICIO ======== -->
+            <section class="tab-screen active" id="tab-home">
+
+              <!-- Saludo -->
+              <div class="greeting-block">
+                <p class="greeting-sub">Buenos días,</p>
+                <h2 class="greeting-name"><span id="greeting-name">Ana</span> <span class="wave">👋</span></h2>
+              </div>
+
+              <!-- Anillo de progreso SVG -->
+              <div class="ring-section">
+                <div class="ring-wrap" id="ring-wrap">
+                  <svg class="progress-ring" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-label="Progreso de pasos">
+                    <!-- Pista de fondo -->
+                    <circle class="ring-track" cx="110" cy="110" r="90"/>
+                    <!-- Anillo de progreso -->
+                    <circle class="ring-fill" id="ring-fill" cx="110" cy="110" r="90"/>
+                    <!-- Punto marcador en el extremo -->
+                    <circle class="ring-dot" id="ring-dot" cx="110" cy="20" r="7"/>
+                  </svg>
+
+                  <!-- Contenido central del anillo -->
+                  <div class="ring-center-content">
+                    <span class="ring-number" id="ring-steps">0</span>
+                    <span class="ring-unit">pasos</span>
+                    <div class="ring-goal-line">
+                      <span class="ring-percent" id="ring-percent">0%</span>
+                      <span class="ring-goal-text">de 10.000</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Barra de energía bajo el anillo -->
+                <div class="energy-section">
+                  <div class="energy-header">
+                    <span class="energy-label">⚡ Energía generada</span>
+                    <span class="energy-value" id="energy-val">0 kJ</span>
+                  </div>
+                  <div class="energy-track">
+                    <div class="energy-progress" id="energy-progress"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Panel de créditos -->
+              <div class="credits-card" id="credits-card">
+                <div class="credits-main-row">
+                  <div class="credits-coin">🪙</div>
+                  <div class="credits-big">
+                    <span class="credits-number" id="credits-display">50</span>
+                    <span class="credits-desc">créditos disponibles</span>
+                  </div>
+                  <div class="credits-badge-wrap">
+                    <div class="credits-today-badge">
+                      <span class="badge-label">Hoy</span>
+                      <span class="badge-val" id="credits-today">+0</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="credits-divider"></div>
+
+                <div class="credits-stats-row">
+                  <div class="credits-stat">
+                    <span class="cstat-num" id="cstat-total">50</span>
+                    <span class="cstat-lbl">Total ganados</span>
+                  </div>
+                  <div class="cstat-sep"></div>
+                  <div class="credits-stat">
+                    <span class="cstat-num" id="cstat-donated">0</span>
+                    <span class="cstat-lbl">Donados</span>
+                  </div>
+                  <div class="cstat-sep"></div>
+                  <div class="credits-stat">
+                    <span class="cstat-num" id="cstat-steps-today">0</span>
+                    <span class="cstat-lbl">Pasos hoy</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Botones de añadir pasos -->
+              <div class="steps-section">
+                <p class="steps-section-title">Simular actividad</p>
+                <div class="step-buttons-row">
+                  <button class="step-btn" onclick="addSteps(100)" aria-label="Añadir 100 pasos">
+                    <span class="sbtn-icon">🚶</span>
+                    <span class="sbtn-val">+100</span>
+                    <span class="sbtn-desc">Paseo</span>
+                  </button>
+                  <button class="step-btn step-btn--mid" onclick="addSteps(500)" aria-label="Añadir 500 pasos">
+                    <span class="sbtn-icon">🏃</span>
+                    <span class="sbtn-val">+500</span>
+                    <span class="sbtn-desc">Trote</span>
+                  </button>
+                  <button class="step-btn step-btn--big" onclick="addSteps(1000)" aria-label="Añadir 1000 pasos">
+                    <span class="sbtn-icon">🏅</span>
+                    <span class="sbtn-val">+1000</span>
+                    <span class="sbtn-desc">Sprint</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Banner de logro (oculto por defecto) -->
+              <div class="achievement-banner hidden" id="achievement-banner">
+                <span class="ach-icon">🏆</span>
+                <div class="ach-text">
+                  <strong>¡Objetivo diario completado!</strong>
+                  <p>Has generado la máxima energía de hoy</p>
+                </div>
+                <button class="ach-close" onclick="document.getElementById('achievement-banner').classList.add('hidden')">✕</button>
+              </div>
+
+            </section><!-- /tab-home -->
+
+            <!-- ======== TAB: PROYECTOS ======== -->
+            <section class="tab-screen" id="tab-projects">
+
+              <div class="projects-header">
+                <div>
+                  <h2 class="section-title">Proyectos</h2>
+                  <p class="section-sub">Tu movimiento, su futuro</p>
+                </div>
+                <div class="mini-credits-pill">
+                  🪙 <span id="credits-projects-disp">50</span>
+                </div>
+              </div>
+
+              <!-- Lista de proyectos generada dinámicamente -->
+              <div class="projects-list" id="projects-list" role="list">
+                <!-- Generado por JS -->
+              </div>
+
+            </section><!-- /tab-projects -->
+
+            <!-- ======== TAB: IMPACTO ======== -->
+            <section class="tab-screen" id="tab-impact">
+
+              <div class="section-header-block">
+                <h2 class="section-title">Tu Impacto</h2>
+                <p class="section-sub">Cada paso transforma el mundo</p>
+              </div>
+
+              <!-- Hero visual -->
+              <div class="impact-hero">
+                <div class="impact-planet-wrap">
+                  <span class="impact-planet">🌍</span>
+                  <div class="orbit orbit-1"><div class="orbit-dot"></div></div>
+                  <div class="orbit orbit-2"><div class="orbit-dot"></div></div>
+                  <div class="orbit orbit-3"><div class="orbit-dot"></div></div>
+                </div>
+                <p class="impact-phrase">Tu movimiento alimenta comunidades reales</p>
+              </div>
+
+              <!-- Grid de estadísticas de impacto -->
+              <div class="impact-grid">
+                <div class="impact-card">
+                  <span class="icard-icon">👣</span>
+                  <span class="icard-val" id="imp-steps">0</span>
+                  <span class="icard-lbl">Pasos totales</span>
+                </div>
+                <div class="impact-card">
+                  <span class="icard-icon">⚡</span>
+                  <span class="icard-val" id="imp-energy">0</span>
+                  <span class="icard-lbl">kJ generados</span>
+                </div>
+                <div class="impact-card impact-card--highlight">
+                  <span class="icard-icon">🪙</span>
+                  <span class="icard-val" id="imp-donated">0</span>
+                  <span class="icard-lbl">Créditos donados</span>
+                </div>
+                <div class="impact-card">
+                  <span class="icard-icon">🌿</span>
+                  <span class="icard-val" id="imp-co2">0</span>
+                  <span class="icard-lbl">g CO₂ evitado</span>
+                </div>
+              </div>
+
+              <!-- Historial de donaciones -->
+              <div class="timeline-section">
+                <h3 class="timeline-title">Historial de donaciones</h3>
+
+                <!-- Estado vacío -->
+                <div class="timeline-empty" id="timeline-empty">
+                  <span class="te-icon">🌱</span>
+                  <p>Aún no has donado créditos.<br><strong>¡Tu impacto está esperando!</strong></p>
+                  <button class="te-btn" onclick="setTab('projects')">Ver proyectos →</button>
+                </div>
+
+                <!-- Lista de donaciones -->
+                <ul class="timeline-list" id="timeline-list" aria-label="Historial de donaciones"></ul>
+              </div>
+
+            </section><!-- /tab-impact -->
+
+            <!-- ======== TAB: PERFIL ======== -->
+            <section class="tab-screen" id="tab-profile">
+              <div class="section-header-block">
+                <h2 class="section-title">Perfil</h2>
+                <p class="section-sub">Tus datos, historial y logros guardados</p>
+              </div>
+
+              <div class="profile-card">
+                <div class="profile-avatar" id="profile-avatar">A</div>
+                <div class="profile-main">
+                  <h3 id="profile-name">Ana</h3>
+                  <p id="profile-email">ana@nativo.app</p>
+                  <span class="profile-level" id="profile-level">Nivel Semilla</span>
+                </div>
+              </div>
+
+              <div class="profile-grid">
+                <div class="profile-stat"><span id="profile-days">1</span><small>Días activos</small></div>
+                <div class="profile-stat"><span id="profile-best">0</span><small>Mejor día</small></div>
+                <div class="profile-stat"><span id="profile-streak">0</span><small>Racha</small></div>
+                <div class="profile-stat"><span id="profile-achievements">0</span><small>Logros</small></div>
+              </div>
+
+              <div class="profile-section">
+                <div class="profile-section-head">
+                  <h3>Historial diario de pasos</h3>
+                  <button class="mini-action" onclick="simulateNewDay()">Simular nuevo día</button>
+                </div>
+                <ul class="daily-list" id="daily-history-list"></ul>
+              </div>
+
+              <div class="profile-section">
+                <h3>Logros</h3>
+                <div class="achievements-grid" id="achievements-grid"></div>
+              </div>
+
+              <div class="profile-section">
+                <h3>Resumen de donaciones</h3>
+                <ul class="donation-summary-list" id="donation-summary-list"></ul>
+              </div>
+
+              <div class="profile-actions">
+                <button class="secondary-action" onclick="exportProfileData()">Exportar datos</button>
+                <button class="danger-action" onclick="logout()">Cerrar sesión</button>
+              </div>
+            </section><!-- /tab-profile -->
+
+          </main><!-- /app-main -->
+
+          <!-- NAVEGACIÓN INFERIOR-->
+          <nav class="bottom-nav" id="bottom-nav" role="navigation" aria-label="Navegación principal">
+            <button class="nav-btn active" onclick="setTab('home')" data-tab="home" aria-label="Inicio">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                  <polyline points="9 22 9 12 15 12 15 22"/>
+                </svg>
+              </span>
+              <span class="nav-label">Inicio</span>
+              <div class="nav-indicator"></div>
+            </button>
+
+            <button class="nav-btn" onclick="setTab('projects')" data-tab="projects" aria-label="Proyectos">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 2a14.5 14.5 0 000 20M2 12h20"/>
+                </svg>
+              </span>
+              <span class="nav-label">Proyectos</span>
+              <div class="nav-indicator"></div>
+            </button>
+
+            <button class="nav-btn" onclick="setTab('impact')" data-tab="impact" aria-label="Impacto">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+                </svg>
+              </span>
+              <span class="nav-label">Impacto</span>
+              <div class="nav-indicator"></div>
+            </button>
+            <button class="nav-btn" onclick="setTab('profile')" data-tab="profile" aria-label="Perfil">
+              <span class="nav-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+                  <circle cx="12" cy="8" r="4"/>
+                  <path d="M4 22c1.4-4.2 4.2-6 8-6s6.6 1.8 8 6"/>
+                </svg>
+              </span>
+              <span class="nav-label">Perfil</span>
+              <div class="nav-indicator"></div>
+            </button>
+
+          </nav>
+
+        </div><!-- /app -->
+      </div><!-- /phone-screen -->
+    </div><!-- /phone-mockup -->
+
+  </div><!-- /desktop-wrapper -->
+
+  <!-- MODAL DE DONACIÓN-->
+  <div class="modal-backdrop" id="modal-backdrop" onclick="closeModal()" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-sheet" id="modal-sheet" onclick="event.stopPropagation()">
+
+      <!-- Drag handle -->
+      <div class="modal-handle"></div>
+
+      <div class="modal-header">
+        <div class="modal-project-icon" id="modal-icon">🌱</div>
+        <div class="modal-header-text">
+          <h3 class="modal-title" id="modal-title">Proyecto</h3>
+          <p class="modal-desc" id="modal-desc">Descripción del proyecto</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal()" aria-label="Cerrar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Progreso del proyecto en el modal -->
+        <div class="modal-progress-section">
+          <div class="modal-progress-labels">
+            <span>Progreso del proyecto</span>
+            <span id="modal-progress-text">0 / 0 créditos</span>
+          </div>
+          <div class="modal-progress-track">
+            <div class="modal-progress-fill" id="modal-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- Créditos disponibles -->
+        <div class="modal-credits-available">
+          <span class="mca-icon">🪙</span>
+          <span>Tus créditos disponibles: <strong id="modal-credits-avail">0</strong></span>
+        </div>
+
+        <!-- Botones de cantidad -->
+        <p class="modal-amount-title">¿Cuántos créditos donar?</p>
+        <div class="amount-grid" id="amount-grid">
+          <button class="amount-chip" onclick="selectAmount(5)" data-amount="5">5 🪙</button>
+          <button class="amount-chip" onclick="selectAmount(10)" data-amount="10">10 🪙</button>
+          <button class="amount-chip" onclick="selectAmount(25)" data-amount="25">25 🪙</button>
+          <button class="amount-chip" onclick="selectAmount(50)" data-amount="50">50 🪙</button>
+        </div>
+
+        <!-- Cantidad personalizada -->
+        <div class="custom-amount-row">
+          <label class="custom-label" for="custom-input">Personalizado:</label>
+          <input
+            type="number"
+            id="custom-input"
+            class="custom-input"
+            placeholder="0"
+            min="1"
+            oninput="selectAmount(parseInt(this.value) || 0)"
+            aria-label="Cantidad personalizada de créditos"
+          >
+          <span class="custom-coin">🪙</span>
+        </div>
+
+        <!-- Vista previa de la donación -->
+        <div class="donation-preview" id="donation-preview">
+          <div class="dp-left">
+            <span class="dp-label">Donarás</span>
+            <span class="dp-amount" id="dp-amount">0 🪙</span>
+          </div>
+          <div class="dp-arrow">→</div>
+          <div class="dp-right">
+            <span class="dp-label">Le quedará al proyecto</span>
+            <span class="dp-remaining" id="dp-remaining">0 🪙</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
+        <button class="btn-donate" id="btn-donate" onclick="confirmDonate()" disabled>
+          <span class="btn-text">Donar créditos</span>
+          <span class="btn-icon">🌿</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTENEDOR DE TOASTS-->
+  <div class="toast-container" id="toast-container" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
